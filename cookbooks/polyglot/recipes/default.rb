@@ -44,7 +44,7 @@ package ['build-essential', 'cmake']
 #package ['rustc', 'cargo']  # Rust
 #package 'scala'  # Scala
 #package ['ruby', 'ruby-dev']  # Ruby
-#package 'openjdk-11-jdk'  # Java
+#package ['openjdk-11-jdk', 'maven']  # Java
 #package ['php-cli', 'php-pear']  # PHP
 
 
@@ -86,12 +86,14 @@ package ['build-essential', 'cmake']
 #  creates "#{ruby_gems}/bunny-2.15.0/Gemfile"
 #end
 # Go amqp library
-#execute 'go get github.com/streadway/amqp' do
+#execute 'go get github.com/streadway/amqp github.com/google/uuid' do
 #  cwd project_home 
 #  user username
 #  environment 'HOME' => user_home
 #  creates user_home + '/go/src/github.com/streadway/amqp/README.md'
 #end
+# Java amqp library
+#package 'librabbitmq-client-java'
 
 
 # ZeroMQ-related things
