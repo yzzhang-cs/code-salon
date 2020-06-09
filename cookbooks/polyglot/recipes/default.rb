@@ -9,6 +9,7 @@ project_home = user_home + '/project/demos' # you may need to change the working
 python3_packages = '/usr/local/lib/python3.6/dist-packages'
 ruby_gems = '/var/lib/gems/2.5.0/gems/'
 
+
 # Get Ubuntu sources set up and packages up to date.
 
 template '/etc/apt/sources.list' do
@@ -29,7 +30,7 @@ directory '/opt'
 directory '/opt/installers'
 
 
-# Basic packages many of us probably want
+# Basic packages many of us probably want. Includes gcc C and C++ compilers.
 
 package ['build-essential', 'cmake']
 
@@ -46,6 +47,7 @@ package ['build-essential', 'cmake']
 #package ['ruby', 'ruby-dev']  # Ruby
 #package ['openjdk-11-jdk', 'maven']  # Java
 #package ['php-cli', 'php-pear']  # PHP
+#package 'clang' # Clang C/C++ compiler
 
 
 # .NET Core
@@ -121,4 +123,37 @@ package ['build-essential', 'cmake']
 #  user username
 #  environment 'HOME' => user_home
 #  creates user_home + '/go/pkg/linux_amd64/github.com/pebbe/zmq4.a'
+#end
+
+
+
+# GraalVM
+
+#graalvm_version = '20.1.0'
+#graalvm_directory = "graalvm-ce-java11-#{graalvm_version}"
+#remote_file '/opt/installers/graalvm.tar.gz' do
+#  source "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-#{graalvm_version}/graalvm-ce-java11-linux-amd64-#{graalvm_version}.tar.gz"
+#end
+#execute 'tar zxf /opt/installers/graalvm.tar.gz' do
+#  cwd '/opt'
+#  creates "/opt/#{graalvm_directory}/release"
+#end
+#link '/opt/graalvm' do
+#  to "/opt/#{graalvm_directory}"
+#  link_type :symbolic
+#end
+#file '/etc/profile.d/graalvm.sh' do
+#  content 'PATH=${PATH}:/opt/graalvm/bin'
+#end
+# GraalVM's Python
+#execute '/opt/graalvm/bin/gu install python' do
+#  creates "/opt/#{graalvm_directory}/bin/graalpython"
+#end
+# GraalVM's Ruby
+#execute '/opt/graalvm/bin/gu install ruby' do
+#  creates "/opt/#{graalvm_directory}/bin/ruby"
+#end
+# GraalVM's LLVM (C, C++) tools
+#execute '/opt/graalvm/bin/gu install llvm-toolchain' do
+#  creates "/opt/#{graalvm_directory}/bin/lli"
 #end
