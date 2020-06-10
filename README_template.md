@@ -1,8 +1,16 @@
 This is the template for CMPT 383 projects, providing some basics to get started with various languages in a a consistent environment.
 
-## Demo Code
 
-In `demos/`, you will find several examples of working with message queues. All of the programs start with a comment that indicates the command to run them.
+## Hello Worlds
+
+In `hello-world/`, there are &ldquo;hello world&rdquo; programs for all of the languages that the Chef recipe can install. At the top of each program is a comment indicating how to run it.
+
+Hopefully this will at least get things started running code in various languages in this context.
+
+
+## Messaging Demo Code
+
+In `mq-demos/`, you will find several examples of working with message queues. All of the programs start with a comment that indicates the command to run them.
 
 All of the RPC examples do the same basic operation: do a remote procedure call by passing a [JSON](https://en.wikipedia.org/wiki/JSON) string. In each case, the request includes a string; we ask the remote code to calculate its length, and return the result as a JSON response. These should be easily extensible to have whatever information is needed in the request/response messages, and whatever login in between.
 
