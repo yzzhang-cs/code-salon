@@ -77,7 +77,7 @@ package ['build-essential', 'cmake']
 
 # SWIG
 
-package 'swig'
+#package 'swig'
 
 
 # RabbitMQ-related things
