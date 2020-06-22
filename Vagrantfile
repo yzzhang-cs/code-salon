@@ -65,8 +65,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "chef_solo" do |chef|
     chef.cookbooks_path = "cookbooks"
     chef.add_recipe "polyglot"
+    chef.arguments = "--chef-license accept"
     #chef.channel = "stable"
-    chef.version = "14.12.9"
+    #chef.version = "14.12.9"
   end
 
 end
