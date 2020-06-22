@@ -75,6 +75,11 @@ package ['build-essential', 'cmake']
 #package ['nodejs']
 
 
+# SWIG
+
+package 'swig'
+
+
 # RabbitMQ-related things
 
 #package ['rabbitmq-server']
@@ -124,7 +129,6 @@ package ['build-essential', 'cmake']
 #  environment 'HOME' => user_home
 #  creates user_home + '/go/pkg/linux_amd64/github.com/pebbe/zmq4.a'
 #end
-
 
 
 # GraalVM

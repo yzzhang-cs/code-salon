@@ -64,3 +64,8 @@ The `amqp_client.*` programs create a request consisting of a single argument (c
 The `amqp_server.*` programs all listen on the `rpc_queue` queue. When a request comes in, they decode the JSON, extract the argument (`"string"`), calculate the length of the string, create a response (containing the `"length"`), encode it as JSON, and send it back to the requester.
 
 All of these programs can interact with each other: you can start any of the `amqp_server.*` programs, and run any of the `amqp_client.*` programs to ask it to calculate a string length.
+
+
+## SWIG Example
+
+The `swig-demo/` directory contains an example of using [SWIG](http://www.swig.org/) to call a C function from another language. The README file in that directory gives details on how to build and run the code.
