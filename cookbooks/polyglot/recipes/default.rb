@@ -39,7 +39,7 @@ package ['build-essential', 'cmake']
 
 package ['python3', 'python3-pip', 'python3-dev']  # Python
 #package ['ghc', 'libghc-random-dev', 'cabal-install']  # Haskell
-#package 'golang-go'  # Go
+package 'golang-go'  # Go
 #package 'erlang'  # Erlang
 #package 'ocaml-nox'  # OCaml
 #package ['rustc', 'cargo']  # Rust
