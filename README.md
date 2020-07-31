@@ -53,14 +53,14 @@ However, to stop the "holy wars" completely, we should use Python or Go instead 
 * "Clean" the input, to make the input into a form that is easier to process
     * remove all unnessesary '\n', '\t' and spaces.
         * nessesary ones stay the same(i.e. the one after `#include <iostream>`)
-        * ones in a string or char(i.e. `"new\nline"`) should stay the same
         * the result should be a single string
+* Communicate with C++ part using [SWIG](http://www.swig.org/Doc1.3/Python.html).  
 
 ### C++ part
 * Process the "cleaned" string
 * Handle file output, so we can output while processing the string
 * Plan to handle C++(.cpp files) only in this project. If I have time and if I am still interested in this project, other programming languages will be added.
 
-### One more language but not decided yet
-* Maybe used to handle an API
-* Or another simple interface, just to fullfill the requirement of this project.
+### Go part
+* Used to process multiple files concurrently, because goroutines are easy to use to achieve concurrency.
+* Communicate with C++ part with [exec](https://tutorialedge.net/golang/executing-system-commands-with-golang/).
