@@ -1,8 +1,6 @@
 #include "stylist.h"
 #include <string>
-#include <fstream>
 #include <map>
-#include <iostream>
 
 #ifndef CPP_STYLIST_H
 #define CPP_STYLIST_H
@@ -18,7 +16,6 @@ class CppStylist : public Stylist {
             space_before_parentheses = true;
             indent = 4;
         }
-		
 		// constructor that takes a map of options.
 		//	the map must be <string, string>
 		CppStylist(std::map<std::string, std::string> options) {
@@ -32,12 +29,13 @@ class CppStylist : public Stylist {
 				indent = stoi(options.find("indent")->second);
 			}
 		}
+		CppStylist(std::string options);
         
         std::string style(std::string s);
 		// std::string clean(std::ifstream *fin);
 		
 		// for testing
-		friend std::ostream& operator<<(std::ostream& out, const CppStylist& stylist);
+		// friend std::ostream& operator<<(std::ostream& out, const CppStylist& stylist);
         
     private:
         bool new_line;

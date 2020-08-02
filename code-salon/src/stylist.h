@@ -1,5 +1,4 @@
 #include <string>
-#include <fstream>
 
 #ifndef STYLIST_H
 #define STYLIST_H
