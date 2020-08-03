@@ -120,29 +120,29 @@ bool newline_char(string s, int i) {
 // copy everything until the end of a string (")
 void copy_string(string s, int &i, string &result) {
 	while(s[i+1] != '\0' && !string_end(s, i)) {
-		if(tab_char(s, i)) {
-			result.append(2, '\\');
-			result.append(1, 't');
-			i++;
-		}
-		else if(newline_char(s, i)) {
-			result.append(2, '\\');
-			result.append(1, 'n');
-			i++;
-		}
-		else {
-			result.append(1, s[i++]);
-		}
+		// if(tab_char(s, i)) {
+			// result.append(2, '\\');
+			// result.append(1, 't');
+			// i++;
+		// }
+		// else if(newline_char(s, i)) {
+			// result.append(2, '\\');
+			// result.append(1, 'n');
+			// i++;
+		// }
+		// else {
+		result.append(1, s[i++]);
+		// }
 	}
 }
 
 // this function may be changed if we want to handle "spaces as tab" cases
+// TODO:                                       ^
 void add_tab(string &result) {
 	result.append(1, '\t');
 }
 // insert a new line
-void new_line(string &result, int level) {
-	result.append(1, '\n');
+void insert_tabs(string &result, int level) {
 	while(level > 0) {
 		add_tab(result);
 		level--;
@@ -180,6 +180,44 @@ string CppStylist::style(string s) {
 				return result;
 			}
 			copy_string(s, i, result);
+		}
+		
+		if(s[i] == '{') {
+			indent_level++;
+			if(new_line) {
+				result.append(1, '\n');
+				result.append(1, '{');
+				insert_tabs(result, indent_level);
+			}
+			else {
+				result.append(1, ' '); // TODO: (not for cmpt383 project) make the user choose if they want the space
+				result.append(1, '{');
+				result.append(1, '\n');
+				insert_tabs(result, indent_level);
+			}
+			i++;
+		}
+		
+		if(s[i] == '}') {
+			indent_level--;
+			insert_tabs(result, indent_level);
+			result.append(1, '}');
+			i++;
+		}
+		
+		if(s[i] == ';') {
+			result.append(1, ';');
+			result.append(1, '\n');
+			i++;
+			
+			if(s[i] == '}') {
+				result.append(1, '}');
+				i++;
+			}
+			else {
+				insert_tabs(result, indent_level);
+				result.append(1, s[i++]);
+			}
 		}
 		
 		// default case, simply copy the character
