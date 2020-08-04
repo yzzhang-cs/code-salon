@@ -4,6 +4,7 @@ SWIG_FLAGS = -c++ -python
 CFLAGS = -std=c++11 -fPIC
 PYTHONI = -I/usr/include/python3.6
 PYTHONL = -Xlinker -export-dynamic
+BIN_PATH = /home/vagrant/project/code-salon/bin
 
 all: _cpp_stylist.so
 
@@ -36,6 +37,7 @@ cpp_stylist.o :
 
 clean:
 	rm -f *.o cpp_salon cpp_stylist.py *.so *_wrap.cxx *.pyc
+	rm -rf $(BIN_PATH)
 	
 run: cpp_salon
 	./cpp_salon

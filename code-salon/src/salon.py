@@ -2,6 +2,7 @@ import cpp_stylist as cpps
 import argparse
 import sys
 import re
+import os
 
 parser = argparse.ArgumentParser(description='Style the source code.')
 parser.add_argument('input_file', help='the input source code')
@@ -104,7 +105,9 @@ def get_clean_string(source):
 
 def main():
 	in_file = open(args.input_file)
-	out_file = open(args.output_file, 'w')
+	
+	os.makedirs(os.path.dirname(args.output_file), exist_ok=True)
+	out_file = open(args.output_file, 'w+')
 	
 	stylist = cpps.CppStylist(construct_option_string())
 	
