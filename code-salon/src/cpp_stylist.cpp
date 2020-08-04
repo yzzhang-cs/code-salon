@@ -119,21 +119,11 @@ bool newline_char(string s, int i) {
 }
 // copy everything until the end of a string (")
 void copy_string(string s, int &i, string &result) {
-	while(s[i+1] != '\0' && !string_end(s, i)) {
-		// if(tab_char(s, i)) {
-			// result.append(2, '\\');
-			// result.append(1, 't');
-			// i++;
-		// }
-		// else if(newline_char(s, i)) {
-			// result.append(2, '\\');
-			// result.append(1, 'n');
-			// i++;
-		// }
-		// else {
+	while(s[i] != '\0' && !string_end(s, i)) {
 		result.append(1, s[i++]);
-		// }
 	}
+	result.append(1, '"');
+	i++;
 }
 
 // this function may be changed if we want to handle "spaces as tab" cases
@@ -162,27 +152,23 @@ string CppStylist::style(string s) {
 			copy_line(s, i, result);
 			insert_tabs(result, indent_level);
 		}
-		
 		// case for block comments (/*...*/)
 		else if(comment_start(s, i)) {
 			copy_comment(s, i, result);
 		}
-		
 		// cases like #include ??????, simply copy the line
 		else if(s[i] == '#') {
 			copy_line(s, i, result);
 		}
-		
 		// start of a string
 		else if(s[i] == '"') {
 			result.append(1, s[i++]);
-			if(s[i] == '\0') { // end of string is reached
+			if(s[i] == '"' && s[i-1] != '\\') { // end of string is reached
 				result.append(1, s[i]);
 				return result;
 			}
 			copy_string(s, i, result);
 		}
-		
 		else if(s[i] == '{') {
 			indent_level++;
 			if(new_line) {
@@ -200,7 +186,6 @@ string CppStylist::style(string s) {
 			}
 			i++;
 		}
-		
 		else if(s[i] == '}') {
 			indent_level--;
 			result.append(1, '}');
@@ -216,7 +201,6 @@ string CppStylist::style(string s) {
 			}
 			insert_tabs(result, indent_level);
 		}
-		
 		else if(s[i] == '\n') {
 			result.append(1, '\n');
 			i++;
@@ -230,9 +214,8 @@ string CppStylist::style(string s) {
 			}
 			insert_tabs(result, indent_level);
 		}
-		
 		// default case, simply copy the character
-		else{
+		else {
 			result.append(1, s[i++]);
 		}
 	}

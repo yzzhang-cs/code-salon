@@ -7,16 +7,31 @@ parser = argparse.ArgumentParser(description='Style the source code.')
 parser.add_argument('input_file', help='the input source code')
 parser.add_argument('output_file', help='the output source code')
 parser.add_argument('--lang', help='the language of the source code', default='cpp')
-parser.add_argument('--new_line', type=bool, help='if you want new line before parentheses, default new_line=False', default=False)
+parser.add_argument('--new-line', help='if you want new line before parentheses, default is false', default=False)
+parser.add_argument('--delete-empty-lines', help='if you want to delete the empty lines, default is false', default=False)
 args = parser.parse_args()
 
-non_escaped_double_quotes = re.compile("[^\\\]\"")
+non_escaped_double_quotes = re.compile(r"(?<!\\)\"")
 non_line_tail_semi_colons = re.compile(";[^\\n]")
 multi_line_comment = re.compile("\\/\\*|\\*\\/")
-	
+single_line_comment = re.compile(r"//")
+#string_regex = re.compile(r'/"(?:[^"\\]|\\.)*"/')
+string_regex = re.compile(r'.+')
+
+def str_to_bool(s):
+	if(not s):
+		return False;
+	s = s.lower()
+	if(s == 'true' or s == '1'):
+		return True
+	else:
+		return False # default is false
+		
+delete_empty_lines = str_to_bool(args.delete_empty_lines)
+
 def construct_option_string():
 	s = ""
-	if(args.new_line == 'True'):
+	if(str_to_bool(args.new_line)):
 		s += 'new_line=' + '1'
 	else:
 		s += 'new_line=' + '0'
@@ -50,8 +65,8 @@ def process_non_string(s):
 	result = ""
 	lines = s.split('\n')
 	for line in lines:
-		if(line.startswith('#')): # lines starts with '#', like #include ..., we just copy it
-			result += line + '\n'
+		if(line.startswith('#') or single_line_comment.search(line)): # lines starts with '#', like #include ..., we just copy it
+			result += line.strip() + '\n'
 		elif(line.strip() == ''): # empty line
 			result += '\n'
 		else:
@@ -68,16 +83,16 @@ def get_clean_string(source):
 		if(not in_comment):
 			in_string = False
 			string_slices = non_escaped_double_quotes.split(comment_slice)
+			
 			for slice in string_slices:
 				if(not in_string):
 					result += process_non_string(slice)
 					in_string = not in_string
 				else:
-					result += '\"'
+					result += ' "'
 					result += slice
-					result += '\"'
+					result += '" '
 					in_string = not in_string
-				result += ' '
 			in_comment = not in_comment
 		else:
 			result += '/*'
@@ -95,7 +110,6 @@ def main():
 	
 	source = in_file.read()
 	cleaned_source = get_clean_string(source)
-	print(cleaned_source)
 	styled = stylist.style(cleaned_source)
 	
 	out_file.write(styled)
