@@ -1,6 +1,7 @@
 #include "stylist.h"
 #include <string>
 #include <map>
+#include <iostream>
 
 #ifndef CPP_STYLIST_H
 #define CPP_STYLIST_H

@@ -160,20 +160,21 @@ string CppStylist::style(string s) {
 		// case for line comments (//)
 		if(line_comment_start(s, i)) {
 			copy_line(s, i, result);
+			insert_tabs(result, indent_level);
 		}
 		
 		// case for block comments (/*...*/)
-		if(comment_start(s, i)) {
+		else if(comment_start(s, i)) {
 			copy_comment(s, i, result);
 		}
 		
 		// cases like #include ??????, simply copy the line
-		if(s[i] == '#') {
+		else if(s[i] == '#') {
 			copy_line(s, i, result);
 		}
 		
 		// start of a string
-		if(s[i] == '"') {
+		else if(s[i] == '"') {
 			result.append(1, s[i++]);
 			if(s[i] == '\0') { // end of string is reached
 				result.append(1, s[i]);
@@ -182,15 +183,17 @@ string CppStylist::style(string s) {
 			copy_string(s, i, result);
 		}
 		
-		if(s[i] == '{') {
+		else if(s[i] == '{') {
 			indent_level++;
 			if(new_line) {
 				result.append(1, '\n');
+				insert_tabs(result, indent_level - 1);
 				result.append(1, '{');
+				result.append(1, '\n');
 				insert_tabs(result, indent_level);
 			}
 			else {
-				result.append(1, ' '); // TODO: (not for cmpt383 project) make the user choose if they want the space
+				result.append(1, ' ');
 				result.append(1, '{');
 				result.append(1, '\n');
 				insert_tabs(result, indent_level);
@@ -198,26 +201,34 @@ string CppStylist::style(string s) {
 			i++;
 		}
 		
-		if(s[i] == '}') {
+		else if(s[i] == '}') {
 			indent_level--;
-			insert_tabs(result, indent_level);
 			result.append(1, '}');
-			i++;
-		}
-		
-		if(s[i] == ';') {
-			result.append(1, ';');
 			result.append(1, '\n');
 			i++;
 			
-			if(s[i] == '}') {
+			while(s[i] == '}') {
+				indent_level--;
+				insert_tabs(result, indent_level);
 				result.append(1, '}');
+				result.append(1, '\n');
 				i++;
 			}
-			else {
+			insert_tabs(result, indent_level);
+		}
+		
+		else if(s[i] == '\n') {
+			result.append(1, '\n');
+			i++;
+			
+			while(s[i] == '}') {
+				indent_level--;
 				insert_tabs(result, indent_level);
-				result.append(1, s[i++]);
+				result.append(1, '}');
+				result.append(1, '\n');
+				i++;
 			}
+			insert_tabs(result, indent_level);
 		}
 		
 		// default case, simply copy the character
