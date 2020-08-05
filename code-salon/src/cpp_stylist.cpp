@@ -163,10 +163,6 @@ string CppStylist::style(string s) {
 		// start of a string
 		else if(s[i] == '"') {
 			result.append(1, s[i++]);
-			if(s[i] == '"' && s[i-1] != '\\') { // end of string is reached
-				result.append(1, s[i]);
-				return result;
-			}
 			copy_string(s, i, result);
 		}
 		else if(s[i] == '{') {
@@ -188,6 +184,10 @@ string CppStylist::style(string s) {
 		}
 		else if(s[i] == '}') {
 			indent_level--;
+			if(s[i-1] != '\t' && s[i-1] != '\n') {
+				result.append(1, '\n');
+				insert_tabs(result, indent_level);
+			}
 			result.append(1, '}');
 			result.append(1, '\n');
 			i++;

@@ -106,13 +106,15 @@ def get_clean_string(source):
 def main():
 	in_file = open(args.input_file)
 	
-	os.makedirs(os.path.dirname(args.output_file), exist_ok=True)
+	if os.path.dirname(args.output_file) != '':
+		os.makedirs(os.path.dirname(args.output_file), exist_ok=True)
 	out_file = open(args.output_file, 'w+')
 	
 	stylist = cpps.CppStylist(construct_option_string())
 	
 	source = in_file.read()
 	cleaned_source = get_clean_string(source)
+	#print(cleaned_source)
 	styled = stylist.style(cleaned_source)
 	
 	out_file.write(styled)
