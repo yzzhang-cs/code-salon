@@ -1,5 +1,46 @@
 # Code Salon
-A library(probably? or a script) that is used to change the [indentation style](https://en.wikipedia.org/wiki/Indentation_style) of code.
+A program that is used to change the [indentation style](https://en.wikipedia.org/wiki/Indentation_style) of code.
+
+## CMPT383 Project Requirements
+### Language Requirements
+* At least one “systems” language (like C, C++, Go, Rust).
+    * C++
+    * Go
+* At least one “scripting” language (like Bash, JavaScript, Julia, Perl, PHP, Python, R, Tcl).
+    * Python
+* C and C++ count as one language.
+    * only C++ is used
+* Only programming languages count toward your language count (e.g. not SQL, HTML, CSS, etc).
+    * none of these languages are used
+* Languages should be reasonably appropriate to the work done with them.
+    * C++
+        * used to process strings
+        * taking the advantage of speed
+    * Python
+        * used to (pre-)process strings
+        * taking the advantage of the [re](https://docs.python.org/3/library/re.html) library
+    * Go
+        * used to concurrently do things
+        * taking the advantage of goroutines' simplicity
+
+### Cross-Language Communication
+* ffi
+    * use C++ classes in Python using [SWIG](http://www.swig.org/Doc1.3/Python.html)
+* exec
+    * run Python scripts in Go using [exec](https://tutorialedge.net/golang/executing-system-commands-with-golang/)
+
+### Implementation and Deployment
+By running `vagrant up`, you can `vagrant ssh` into the machine then use the program immediately.  
+
+#### Example
+1. `vagrant up` on the host machine
+2. `vagrant ssh` into the VM
+3. `salon` this should show the usage of the program
+4. `salon -in project/sample_input/ -out output` this will take all .cpp files in the `sample_output` directory, style them then output to the `output` directory
+5. `salon -in project/sample_input/hello_world.cpp -out output.cpp` this will style the `hello_world.cpp` file, then output to `output.cpp`
+6. `salon -in project/sample_input/hello_world.cpp -out output.cpp -new-line 1` same as above, but with line-breaks before parentheses 
+
+
 
 ## Purpose of this project
 Lets look at the following pieces of code:
@@ -43,9 +84,8 @@ So the main questions are:
 * to 4 spaces or to 2 spaces?
 * ......
 
-And in the Chinese programmers' community, these questions can cause [holy wars](https://code2048.com/series/%E5%9C%A3%E6%88%98%E7%B3%BB%E5%88%97/).  
+In the Chinese programmers' community, these questions can cause [holy wars](https://code2048.com/series/%E5%9C%A3%E6%88%98%E7%B3%BB%E5%88%97/)(this is not serious).  
 This library will help converting a program from one style to another.  
-However, to stop the "holy wars" completely, we should use Python or Go instead of C/C++, Java or Javacript.  
 
 ## Implementation Details
 ### Python part
@@ -63,4 +103,4 @@ However, to stop the "holy wars" completely, we should use Python or Go instead 
 
 ### Go part
 * Used to process multiple files concurrently, because goroutines are easy to use to achieve concurrency.
-* Communicate with C++ part with [exec](https://tutorialedge.net/golang/executing-system-commands-with-golang/).
+* Communicate with python part with [exec](https://tutorialedge.net/golang/executing-system-commands-with-golang/).
