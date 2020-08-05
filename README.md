@@ -22,6 +22,7 @@ A program that is used to change the [indentation style](https://en.wikipedia.or
     * Go
         * used to concurrently do things
         * taking the advantage of goroutines' simplicity
+        * used to produce binary file (go build)
 
 ### Cross-Language Communication
 * ffi
