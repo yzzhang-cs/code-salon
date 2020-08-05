@@ -161,3 +161,18 @@ package 'swig'
 #execute '/opt/graalvm/bin/gu install llvm-toolchain' do
 #  creates "/opt/#{graalvm_directory}/bin/lli"
 #end
+
+
+# Make
+execute 'make' do
+	command 'make'
+	user 'vagrant'
+	cwd '/home/vagrant/project/code-salon/src'
+end
+
+# Copy and link binary files
+execute 'copy and link binary file' do
+	command 'cp -R /home/vagrant/project/code-salon/bin/ /home/vagrant/code-salon && sudo ln -s /home/vagrant/code-salon/code-salon-deps /usr/local/bin && sudo ln /home/vagrant/code-salon/salon /usr/local/bin'
+	user 'vagrant'
+	cwd '/home/vagrant'
+end

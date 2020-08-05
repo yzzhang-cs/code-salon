@@ -68,9 +68,9 @@ func concurrentMode(inDir string, outDir string, options []string) {
 }
 
 func main() {
-	pwd, _  = filepath.Abs(filepath.Dir(os.Args[0]))
-	script = pwd + "/salon.py"
-	
+	ex, _  := os.Executable()
+	pwd := filepath.Dir(ex)
+	script = pwd + "/code-salon-deps/salon.py"
 	
 	newLine := flag.String("new-line", "0", "if you want a new line before parentheses")
 	deleteEmptyLines := flag.String("delete-empty-lines", "0", "if you want to delete empty lines")
