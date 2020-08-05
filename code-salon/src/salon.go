@@ -29,10 +29,17 @@ func salonFile(inFile string, outFile string, options []string) {
 
 func salonFileConcurrent(inFile string, outFile string, options []string, wg *sync.WaitGroup) {
 	defer wg.Done()
-	salonFile(inFile, outFile, options)
+	if strings.HasSuffix(inFile, ".cpp") {
+		salonFile(inFile, outFile, options)
+	} else {
+		fmt.Println(inFile + " is not a .cpp file, ignoring.")
+	}
 }
 
 func singleMode(inFile string, outFile string, options []string) {
+	if !strings.HasSuffix(inFile, ".cpp") {
+		fmt.Println("WARNING: " + inFile + " is not a .cpp file.")
+	}
 	salonFile(inFile, outFile, options)
 }
 
