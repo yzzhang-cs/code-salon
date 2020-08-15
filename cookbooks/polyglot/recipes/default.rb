@@ -1,4 +1,5 @@
-ubuntu_mirror = 'https://mirror.its.sfu.ca/mirror/ubuntu/'
+#ubuntu_mirror = 'https://mirror.its.sfu.ca/mirror/ubuntu/'
+ubuntu_mirror = 'http://mirror.csclub.uwaterloo.ca/ubuntu/'
 ubuntu_release = 'bionic'
 ubuntu_version = '18.04'
 username = 'vagrant'
