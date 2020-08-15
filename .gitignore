@@ -9,3 +9,5 @@ log/*
 .bundle
 
 node_modules
+
+output/
