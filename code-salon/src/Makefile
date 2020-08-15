@@ -7,6 +7,8 @@ PYTHONL = -Xlinker -export-dynamic
 BIN_PATH = /home/vagrant/project/code-salon/bin
 DEPS_PATH = $(BIN_PATH)/code-salon-deps
 GO_BUILD = go build
+SAMPLE_INPUT = /home/vagrant/project/sample_input
+SAMPLE_OUTPUT = /home/vagrant/project/output
 
 all: _cpp_stylist.so
 	cp salon.py $(DEPS_PATH)
@@ -34,4 +36,3 @@ cpp_stylist.o :
 clean:
 	rm -f *.o cpp_salon cpp_stylist.py *.so *_wrap.cxx *.pyc
 	rm -rf $(BIN_PATH)
-	

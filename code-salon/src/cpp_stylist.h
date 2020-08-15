@@ -11,11 +11,11 @@ class CppStylist : public Stylist {
 		// default constructor
 		// 	- no new line before parentheses
 		//	- 1 space before parentheses
-		//	- 4-space indent
+		//	- 0-space indent(means a tab)
         CppStylist() {
             new_line = false;
             space_before_parentheses = true;
-            indent = 4;
+            indent = 0;
         }
 		// constructor that takes a map of options.
 		//	the map must be <string, string>

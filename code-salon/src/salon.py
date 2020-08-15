@@ -10,6 +10,7 @@ parser.add_argument('output_file', help='the output source code')
 parser.add_argument('--lang', help='the language of the source code', default='cpp')
 parser.add_argument('--new-line', help='if you want new line before parentheses, default is false', default=False)
 parser.add_argument('--delete-empty-lines', help='if you want to delete the empty lines, default is false', default=False)
+parser.add_argument('--indent', help='number of spaces you want for an indent, if this is 0, then a tab is used. Default is 0', default=0)
 args = parser.parse_args()
 
 non_escaped_double_quotes = re.compile(r"(?<!\\)\"")
@@ -36,6 +37,11 @@ def construct_option_string():
 		s += 'new_line=' + '1'
 	else:
 		s += 'new_line=' + '0'
+	s += ';'
+	if(args.indent == 0):
+		s += 'indent=' + '0'
+	else:
+		s += 'indent=' + str(args.indent)
 	return s
 	
 def toggle(flag):
@@ -103,21 +109,34 @@ def get_clean_string(source):
 			
 	return result
 
+def style_lang(in_file, out_file, lang):
+	if(lang == 'cpp' or lang == 'js'):
+		stylist = cpps.CppStylist(construct_option_string())
+		source = in_file.read()
+		cleaned_source = get_clean_string(source)
+		styled = stylist.style(cleaned_source)
+		
+		out_file.write(styled)
+	else:
+		print("Currently we don't support: " + lang)
+
+
 def main():
 	in_file = open(args.input_file)
 	
 	if os.path.dirname(args.output_file) != '':
 		os.makedirs(os.path.dirname(args.output_file), exist_ok=True)
 	out_file = open(args.output_file, 'w+')
+	style_lang(in_file, out_file, args.lang)
+
+	# stylist = cpps.CppStylist(construct_option_string())
 	
-	stylist = cpps.CppStylist(construct_option_string())
+	# source = in_file.read()
+	# cleaned_source = get_clean_string(source)
+	# #print(cleaned_source)
+	# styled = stylist.style(cleaned_source)
 	
-	source = in_file.read()
-	cleaned_source = get_clean_string(source)
-	#print(cleaned_source)
-	styled = stylist.style(cleaned_source)
-	
-	out_file.write(styled)
+	# out_file.write(styled)
 	
 	
 	

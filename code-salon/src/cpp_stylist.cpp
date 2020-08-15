@@ -125,17 +125,28 @@ void copy_string(string s, int &i, string &result) {
 	result.append(1, '"');
 	i++;
 }
-
-// this function may be changed if we want to handle "spaces as tab" cases
-// TODO:                                       ^
 void add_tab(string &result) {
 	result.append(1, '\t');
 }
-// insert a new line
+// insert tabs
 void insert_tabs(string &result, int level) {
 	while(level > 0) {
 		add_tab(result);
 		level--;
+	}
+}
+void insert_tabs_spaces(string &result, int n_spaces) {
+	while(n_spaces > 0) {
+		result.append(1, ' ');
+		n_spaces--;
+	}
+}
+void handle_tabs(string &result, int level, int indent) {
+	if(indent == 0) {
+		insert_tabs(result, level);
+	}
+	else {
+		insert_tabs_spaces(result, level*indent);
 	}
 }
 
@@ -150,7 +161,8 @@ string CppStylist::style(string s) {
 		// case for line comments (//)
 		if(line_comment_start(s, i)) {
 			copy_line(s, i, result);
-			insert_tabs(result, indent_level);
+			// insert_tabs(result, indent_level);
+			handle_tabs(result, indent_level, indent);
 		}
 		// case for block comments (/*...*/)
 		else if(comment_start(s, i)) {
@@ -169,16 +181,19 @@ string CppStylist::style(string s) {
 			indent_level++;
 			if(new_line) {
 				result.append(1, '\n');
-				insert_tabs(result, indent_level - 1);
+				// insert_tabs(result, indent_level - 1);
+				handle_tabs(result, indent_level - 1, indent);
 				result.append(1, '{');
 				result.append(1, '\n');
-				insert_tabs(result, indent_level);
+				// insert_tabs(result, indent_level);
+				handle_tabs(result, indent_level, indent);
 			}
 			else {
 				result.append(1, ' ');
 				result.append(1, '{');
 				result.append(1, '\n');
-				insert_tabs(result, indent_level);
+				// insert_tabs(result, indent_level);
+				handle_tabs(result, indent_level, indent);
 			}
 			i++;
 		}
@@ -186,7 +201,8 @@ string CppStylist::style(string s) {
 			indent_level--;
 			if(s[i-1] != '\t' && s[i-1] != '\n') {
 				result.append(1, '\n');
-				insert_tabs(result, indent_level);
+				// insert_tabs(result, indent_level);
+				handle_tabs(result, indent_level, indent);
 			}
 			result.append(1, '}');
 			result.append(1, '\n');
@@ -194,12 +210,14 @@ string CppStylist::style(string s) {
 			
 			while(s[i] == '}') {
 				indent_level--;
-				insert_tabs(result, indent_level);
+				// insert_tabs(result, indent_level);
+				handle_tabs(result, indent_level, indent);
 				result.append(1, '}');
 				result.append(1, '\n');
 				i++;
 			}
-			insert_tabs(result, indent_level);
+			// insert_tabs(result, indent_level);
+			handle_tabs(result, indent_level, indent);
 		}
 		else if(s[i] == '\n') {
 			result.append(1, '\n');
@@ -207,12 +225,14 @@ string CppStylist::style(string s) {
 			
 			while(s[i] == '}') {
 				indent_level--;
-				insert_tabs(result, indent_level);
+				// insert_tabs(result, indent_level);
+				handle_tabs(result, indent_level, indent);
 				result.append(1, '}');
 				result.append(1, '\n');
 				i++;
 			}
-			insert_tabs(result, indent_level);
+			// insert_tabs(result, indent_level);
+			handle_tabs(result, indent_level, indent);
 		}
 		// default case, simply copy the character
 		else {
